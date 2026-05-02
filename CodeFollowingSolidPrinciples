@@ -1,0 +1,143 @@
+using System;
+
+// S - Single Responsibility
+class Report
+{
+    public string GetContent()
+    {
+        return "Report Data";
+    }
+}
+
+class ReportPrinter
+{
+    public void Print(string content)
+    {
+        Console.WriteLine("Printing: " + content);
+    }
+}
+
+// O - Open/Closed + L - Liskov Substitution
+abstract class Payment
+{
+    public abstract void Pay();
+}
+
+class CardPayment : Payment
+{
+    public override void Pay()
+    {
+        Console.WriteLine("Paid using Card");
+    }
+}
+
+class UpiPayment : Payment
+{
+    public override void Pay()
+    {
+        Console.WriteLine("Paid using UPI");
+    }
+}
+
+// I - Interface Segregation
+interface IWork
+{
+    void Work();
+}
+
+interface IEat
+{
+    void Eat();
+}
+
+class Human : IWork, IEat
+{
+    public void Work()
+    {
+        Console.WriteLine("Human working");
+    }
+
+    public void Eat()
+    {
+        Console.WriteLine("Human eating");
+    }
+}
+
+class Robot : IWork
+{
+    public void Work()
+    {
+        Console.WriteLine("Robot working");
+    }
+}
+
+// D - Dependency Inversion
+interface IMessage
+{
+    void Send();
+}
+
+class Email : IMessage
+{
+    public void Send()
+    {
+        Console.WriteLine("Email sent");
+    }
+}
+
+class Sms : IMessage
+{
+    public void Send()
+    {
+        Console.WriteLine("SMS sent");
+    }
+}
+
+class Notification
+{
+    private IMessage message;
+
+    public Notification(IMessage message)
+    {
+        this.message = message;
+    }
+
+    public void Notify()
+    {
+        message.Send();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Single Responsibility
+        Report report = new Report();
+        ReportPrinter printer = new ReportPrinter();
+        printer.Print(report.GetContent());
+
+        // Open/Closed + Liskov
+        Payment p1 = new CardPayment();
+        Payment p2 = new UpiPayment();
+        p1.Pay();
+        p2.Pay();
+
+        // Interface Segregation
+        Human h = new Human();
+        h.Work();
+        h.Eat();
+
+        Robot r = new Robot();
+        r.Work();
+
+        // Dependency Inversion
+        IMessage email = new Email();
+        Notification n1 = new Notification(email);
+        n1.Notify();
+
+        IMessage sms = new Sms();
+        Notification n2 = new Notification(sms);
+        n2.Notify();
+    }
+}
