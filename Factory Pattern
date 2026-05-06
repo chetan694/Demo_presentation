@@ -1,0 +1,41 @@
+using System;
+
+interface IShape
+{
+    void Draw();
+}
+
+class Circle : IShape
+{
+    public void Draw()
+    {
+        Console.WriteLine("Circle");
+    }
+}
+
+class Square : IShape
+{
+    public void Draw()
+    {
+        Console.WriteLine("Square");
+    }
+}
+
+class ShapeFactory
+{
+    public static IShape GetShape(string type)
+    {
+        if (type == "circle") return new Circle();
+        if (type == "square") return new Square();
+        return null;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        IShape shape = ShapeFactory.GetShape("circle");
+        shape.Draw();
+    }
+}
