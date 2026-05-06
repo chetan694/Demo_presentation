@@ -1,0 +1,49 @@
+using System;
+
+interface IMessage
+{
+    void Send();
+}
+
+class TextMessage : IMessage
+{
+    public void Send()
+    {
+        Console.WriteLine("Text Message");
+    }
+}
+
+class MessageDecorator : IMessage
+{
+    protected IMessage message;
+
+    public MessageDecorator(IMessage msg)
+    {
+        message = msg;
+    }
+
+    public virtual void Send()
+    {
+        message.Send();
+    }
+}
+
+class EncryptedMessage : MessageDecorator
+{
+    public EncryptedMessage(IMessage msg) : base(msg) { }
+
+    public override void Send()
+    {
+        Console.WriteLine("Encrypting...");
+        base.Send();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        IMessage msg = new EncryptedMessage(new TextMessage());
+        msg.Send();
+    }
+}
