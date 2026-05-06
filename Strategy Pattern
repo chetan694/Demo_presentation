@@ -1,0 +1,46 @@
+using System;
+
+interface IPayment
+{
+    void Pay();
+}
+
+class CreditCard : IPayment
+{
+    public void Pay()
+    {
+        Console.WriteLine("Paid with Credit Card");
+    }
+}
+
+class UPI : IPayment
+{
+    public void Pay()
+    {
+        Console.WriteLine("Paid with UPI");
+    }
+}
+
+class PaymentContext
+{
+    private IPayment payment;
+
+    public PaymentContext(IPayment pay)
+    {
+        payment = pay;
+    }
+
+    public void Execute()
+    {
+        payment.Pay();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        PaymentContext context = new PaymentContext(new UPI());
+        context.Execute();
+    }
+}
