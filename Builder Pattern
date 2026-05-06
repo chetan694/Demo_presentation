@@ -1,0 +1,42 @@
+using System;
+
+class Computer
+{
+    public string CPU;
+    public string RAM;
+}
+
+class ComputerBuilder
+{
+    private Computer comp = new Computer();
+
+    public ComputerBuilder SetCPU(string cpu)
+    {
+        comp.CPU = cpu;
+        return this;
+    }
+
+    public ComputerBuilder SetRAM(string ram)
+    {
+        comp.RAM = ram;
+        return this;
+    }
+
+    public Computer Build()
+    {
+        return comp;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Computer c = new ComputerBuilder()
+                        .SetCPU("i7")
+                        .SetRAM("16GB")
+                        .Build();
+
+        Console.WriteLine(c.CPU + " " + c.RAM);
+    }
+}
