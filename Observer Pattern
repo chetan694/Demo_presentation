@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+
+interface IObserver
+{
+    void Update(string message);
+}
+
+class Subscriber : IObserver
+{
+    public void Update(string message)
+    {
+        Console.WriteLine("Received: " + message);
+    }
+}
+
+class Publisher
+{
+    private List<IObserver> observers = new List<IObserver>();
+
+    public void Subscribe(IObserver obs)
+    {
+        observers.Add(obs);
+    }
+
+    public void Notify(string msg)
+    {
+        foreach (var obs in observers)
+        {
+            obs.Update(msg);
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Publisher pub = new Publisher();
+        Subscriber sub = new Subscriber();
+
+        pub.Subscribe(sub);
+        pub.Notify("New Update!");
+    }
+}
